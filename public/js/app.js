@@ -1879,6 +1879,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -1888,7 +1900,8 @@ __webpack_require__.r(__webpack_exports__);
       image: '',
       categories: [],
       albumId: '',
-      success: false
+      success: false,
+      allErrors: []
     };
   },
   created: function created() {
@@ -1928,6 +1941,7 @@ __webpack_require__.r(__webpack_exports__);
         _this2.success = true;
       })["catch"](function (error) {
         console.log(error);
+        _this2.allErrors = error.response.data.errors;
       });
     }
   }
@@ -37616,7 +37630,7 @@ var render = function() {
                   }
                 ],
                 staticClass: "form-control",
-                attrs: { type: "text", name: "name", maxlength: "15" },
+                attrs: { type: "text", name: "name", maxlength: "25" },
                 domProps: { value: _vm.name },
                 on: {
                   input: function($event) {
@@ -37626,7 +37640,17 @@ var render = function() {
                     _vm.name = $event.target.value
                   }
                 }
-              })
+              }),
+              _vm._v(" "),
+              _vm.allErrors.name
+                ? _c("span", { class: ["danger"] }, [
+                    _vm._v(
+                      "\r\n                " +
+                        _vm._s(_vm.allErrors.name[0]) +
+                        "\r\n            "
+                    )
+                  ])
+                : _vm._e()
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "form-group" }, [
@@ -37652,7 +37676,17 @@ var render = function() {
                     _vm.description = $event.target.value
                   }
                 }
-              })
+              }),
+              _vm._v(" "),
+              _vm.allErrors.description
+                ? _c("span", { class: ["danger"] }, [
+                    _vm._v(
+                      "\r\n                " +
+                        _vm._s(_vm.allErrors.description[0]) +
+                        "\r\n            "
+                    )
+                  ])
+                : _vm._e()
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "form-group" }, [
@@ -37704,7 +37738,17 @@ var render = function() {
                         )
                       ]
                     )
-                  })
+                  }),
+                  _vm._v(" "),
+                  _vm.allErrors.category
+                    ? _c("span", { class: ["danger"] }, [
+                        _vm._v(
+                          "\r\n                    " +
+                            _vm._s(_vm.allErrors.category[0]) +
+                            "\r\n                "
+                        )
+                      ])
+                    : _vm._e()
                 ],
                 2
               )
@@ -37717,7 +37761,17 @@ var render = function() {
                 staticClass: "form-control",
                 attrs: { type: "file", name: "image" },
                 on: { change: _vm.onImageChange }
-              })
+              }),
+              _vm._v(" "),
+              _vm.allErrors.image
+                ? _c("span", { class: ["danger"] }, [
+                    _vm._v(
+                      "\r\n                " +
+                        _vm._s(_vm.allErrors.image[0]) +
+                        "\r\n            "
+                    )
+                  ])
+                : _vm._e()
             ]),
             _vm._v(" "),
             _vm._m(0)

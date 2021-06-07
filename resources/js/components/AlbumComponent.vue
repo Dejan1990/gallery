@@ -3,24 +3,36 @@
     <form @submit.prevent="createAlbum" enctype="multipart/form-data" v-if="!success">
         <div class="form-group">
             <label>Name of Album</label>
-            <input type="text" name="name" v-model="name" class="form-control" maxlength="15">
+            <input type="text" name="name" v-model="name" class="form-control" maxlength="25">
+            <span v-if="allErrors.name" :class="['danger']">
+                {{ allErrors.name[0] }}
+            </span>
         </div>
         <div class="form-group">
             <label>Description of Album</label>
             <textarea class="form-control" maxlength="200" name="description" v-model="description"></textarea>
+            <span v-if="allErrors.description" :class="['danger']">
+                {{ allErrors.description[0] }}
+            </span>
         </div>
         <div class="form-group">
             <label>Category of Album</label>
             <select class="form-control" name="category" v-model="category">
-                <option value="">Please select a category:</option>
+                <option value=''>Please select a category:</option>
                 <option v-for="(category,index) in categories" :key="index" :value="category.id">
                     {{category.name}}
                 </option>
+                <span v-if="allErrors.category" :class="['danger']">
+                    {{ allErrors.category[0] }}
+                </span>
             </select>
         </div>
         <div class="form-group">
             <label>Image of Album</label>
             <input type="file" name="image" class="form-control" v-on:change="onImageChange">
+            <span v-if="allErrors.image" :class="['danger']">
+                {{ allErrors.image[0] }}
+            </span>
         </div>
         <div class="form-group">
             <button class="btn btn-secondary" type="submit">Create Album</button>
@@ -43,6 +55,7 @@ export default {
             categories: [],
             albumId: '',
             success: false,
+            allErrors: []
         }
     },
     created() {
@@ -78,9 +91,10 @@ export default {
                 this.category = ''
                 this.albumId = response.data.id
                 console.log(response.data.id)
-                this.success = true 
+                this.success = true
             }).catch((error) => {
                 console.log(error)
+                this.allErrors = error.response.data.errors
             })
         }
     }
