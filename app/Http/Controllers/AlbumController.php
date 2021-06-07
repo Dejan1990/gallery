@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class AlbumController extends Controller
 {
+    public function getAlbums()
+    {
+        $albums = Album::with('category')->where('user_id', auth()->user()->id)->get();
+        return $albums;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +19,7 @@ class AlbumController extends Controller
      */
     public function index()
     {
-        //
+        return view('album.index');
     }
 
     /**
