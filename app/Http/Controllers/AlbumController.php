@@ -61,48 +61,24 @@ class AlbumController extends Controller
         return Album::with('category')->find($id);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Album  $album
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Album $album)
+    public function update($id, Request $request)
     {
-        //
-    }
+        $findAlbum = Album::find($id);
+        $photo = $findAlbum->image;
+        if($request->hasFile('image')){
+            $file = $request->file('image');
+            $photo = $file->hashName();
+            $file->move('./album/', $photo);
+        }
+        $album = Album::find($id);
+        $album->name = $request->name;
+        $album->description = $request->description;
+        $album->category_id = $request->category_id;
+        $album->image = $photo;
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Album  $album
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Album $album)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Album  $album
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Album $album)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Album  $album
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Album $album)
-    {
-        //
+        $success = $album->save();
+        if($success){
+            return response()->json($this->getAlbums());
+        }
     }
 }
