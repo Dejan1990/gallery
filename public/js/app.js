@@ -1876,6 +1876,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -1883,7 +1886,9 @@ __webpack_require__.r(__webpack_exports__);
       description: '',
       category: '',
       image: '',
-      categories: []
+      categories: [],
+      albumId: '',
+      success: false
     };
   },
   created: function created() {
@@ -1899,8 +1904,31 @@ __webpack_require__.r(__webpack_exports__);
         alert('unable to fetch categories');
       });
     },
+    onImageChange: function onImageChange(e) {
+      console.log(e);
+      this.image = e.target.files[0]; // u console ovako dolazimo do slike
+    },
     createAlbum: function createAlbum() {
-      alert('Ok');
+      var _this2 = this;
+
+      var config = {
+        headers: {
+          "content-type": "multipart/form-data"
+        }
+      };
+      var formData = new FormData();
+      formData.append('image', this.image);
+      formData.append('name', this.name);
+      formData.append('description', this.description);
+      formData.append('category_id', this.category);
+      axios.post('/albums/store', formData, config).then(function (response) {
+        _this2.image = '', _this2.name = '', _this2.description = '', _this2.category = '';
+        _this2.albumId = response.data.id;
+        console.log(response.data.id);
+        _this2.success = true;
+      })["catch"](function (error) {
+        console.log(error);
+      });
     }
   }
 });
@@ -37562,146 +37590,153 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c(
-      "form",
-      {
-        attrs: { enctype: "multipart/form-data" },
-        on: {
-          submit: function($event) {
-            $event.preventDefault()
-            return _vm.createAlbum.apply(null, arguments)
-          }
-        }
-      },
-      [
-        _c("div", { staticClass: "form-group" }, [
-          _c("label", [_vm._v("Name of Album")]),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.name,
-                expression: "name"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: { type: "text", name: "name", maxlength: "15" },
-            domProps: { value: _vm.name },
+    !_vm.success
+      ? _c(
+          "form",
+          {
+            attrs: { enctype: "multipart/form-data" },
             on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.name = $event.target.value
+              submit: function($event) {
+                $event.preventDefault()
+                return _vm.createAlbum.apply(null, arguments)
               }
             }
-          })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "form-group" }, [
-          _c("label", [_vm._v("Description of Album")]),
-          _vm._v(" "),
-          _c("textarea", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.description,
-                expression: "description"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: { maxlength: "200", name: "description" },
-            domProps: { value: _vm.description },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.description = $event.target.value
-              }
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "form-group" }, [
-          _c("label", [_vm._v("Category of Album")]),
-          _vm._v(" "),
-          _c(
-            "select",
-            {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.category,
-                  expression: "category"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { name: "category" },
-              on: {
-                change: function($event) {
-                  var $$selectedVal = Array.prototype.filter
-                    .call($event.target.options, function(o) {
-                      return o.selected
-                    })
-                    .map(function(o) {
-                      var val = "_value" in o ? o._value : o.value
-                      return val
-                    })
-                  _vm.category = $event.target.multiple
-                    ? $$selectedVal
-                    : $$selectedVal[0]
-                }
-              }
-            },
-            [
-              _c("option", { attrs: { value: "" } }, [
-                _vm._v("Please select a category:")
-              ]),
+          },
+          [
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", [_vm._v("Name of Album")]),
               _vm._v(" "),
-              _vm._l(_vm.categories, function(category, index) {
-                return _c(
-                  "option",
-                  { key: index, domProps: { value: category.id } },
-                  [
-                    _vm._v(
-                      "\r\n                    " +
-                        _vm._s(category.name) +
-                        "\r\n                "
-                    )
-                  ]
-                )
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.name,
+                    expression: "name"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text", name: "name", maxlength: "15" },
+                domProps: { value: _vm.name },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.name = $event.target.value
+                  }
+                }
               })
-            ],
-            2
-          )
-        ]),
-        _vm._v(" "),
-        _vm._m(0),
-        _vm._v(" "),
-        _vm._m(1)
-      ]
-    )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", [_vm._v("Description of Album")]),
+              _vm._v(" "),
+              _c("textarea", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.description,
+                    expression: "description"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { maxlength: "200", name: "description" },
+                domProps: { value: _vm.description },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.description = $event.target.value
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", [_vm._v("Category of Album")]),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.category,
+                      expression: "category"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { name: "category" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.category = $event.target.multiple
+                        ? $$selectedVal
+                        : $$selectedVal[0]
+                    }
+                  }
+                },
+                [
+                  _c("option", { attrs: { value: "" } }, [
+                    _vm._v("Please select a category:")
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.categories, function(category, index) {
+                    return _c(
+                      "option",
+                      { key: index, domProps: { value: category.id } },
+                      [
+                        _vm._v(
+                          "\r\n                    " +
+                            _vm._s(category.name) +
+                            "\r\n                "
+                        )
+                      ]
+                    )
+                  })
+                ],
+                2
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", [_vm._v("Image of Album")]),
+              _vm._v(" "),
+              _c("input", {
+                staticClass: "form-control",
+                attrs: { type: "file", name: "image" },
+                on: { change: _vm.onImageChange }
+              })
+            ]),
+            _vm._v(" "),
+            _vm._m(0)
+          ]
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.success
+      ? _c("div", [
+          _c("a", { attrs: { href: "/gallery/" + _vm.albumId } }, [
+            _vm._v(
+              "Your album is created. Please click the link to upload the images"
+            )
+          ])
+        ])
+      : _vm._e()
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c("label", [_vm._v("Image of Album")]),
-      _vm._v(" "),
-      _c("input", {
-        staticClass: "form-control",
-        attrs: { type: "file", name: "image" }
-      })
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
