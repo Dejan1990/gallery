@@ -39,7 +39,7 @@
         </div>
     </form>
     <div v-if="success">
-        <a :href="'/gallery/'+albumId">Your album is created. Please click the link to upload the images</a>
+        <a :href="'/upload/images/'+albumId">Your album is created. Please click the link to upload the images</a>
     </div>
 </div>
 </template>

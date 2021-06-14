@@ -31,7 +31,7 @@
                     </a>
                 </td>
                 <td>
-                    <a href="#">
+                    <a :href="'/upload/images/'+album.id">
                         <button class="btn btn-success">Upload</button>
                     </a>
                 </td>
