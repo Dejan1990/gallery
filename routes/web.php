@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AlbumController;
+use App\Http\Controllers\GalleryController;
 
 
 Route::get('/', function () {
@@ -20,3 +21,6 @@ Route::post('/albums/store', [AlbumController::class, 'store'])->middleware('aut
 Route::put('/albums/{album:id}/edit', [AlbumController::class, 'update'])->middleware('auth');
 Route::delete('/albums/{id}/delete', [AlbumController::class, 'destroy'])->middleware('auth');
 Route::get('/getalbums', [AlbumController::class, 'getAlbums'])->middleware('auth');
+
+Route::get('/upload/images', [GalleryController::class, 'create'])->middleware('auth');
+Route::post('uploadImages', [GalleryController::class, 'upload'])->middleware('auth');
