@@ -43,7 +43,7 @@ class AlbumController extends Controller
         $this->validate($request, [
             'name' => 'required|min:3|max:25',
             'description' => 'required|min:3|max:200',
-            'category_id' => 'required',
+            'category_id' => 'required|numeric',
             'image' => 'required|mimes:jpeg,jpg,png'
         ]);
 
@@ -56,29 +56,33 @@ class AlbumController extends Controller
         return response()->json([ 'id' => $album->id ]);
     }
 
-    public function getOneAlbum($id)
+    public function update(Album $album, Request $request)
     {
-        return Album::with('category')->find($id);
-    }
+        $this->validate($request, [
+            'name' => 'required|min:3|max:25',
+            'description' => 'required|min:3|max:200',
+            'category_id' => 'required|numeric',
+            'image' => 'sometimes|mimes:jpeg,jpg,png'
+        ]);
 
-    public function update($id, Request $request)
-    {
-        $findAlbum = Album::find($id);
-        $photo = $findAlbum->image;
+        $data = $request->all();
+        $data['image'] = $album->image;
+
         if($request->hasFile('image')){
             $file = $request->file('image');
-            $photo = $file->hashName();
-            $file->move('./album/', $photo);
+            $data['image'] = $file->hashName();
+            $file->move('./album/', $data['image']);
         }
-        $album = Album::find($id);
-        $album->name = $request->name;
-        $album->description = $request->description;
-        $album->category_id = $request->category_id;
-        $album->image = $photo;
 
-        $success = $album->save();
-        if($success){
+        $album->update($data);
+
+        if($request->expectsJson()){
             return response()->json($this->getAlbums());
         }
+    }
+
+    public function getOneAlbum($id)
+    {
+        return Album::with('category')->findOrFail($id);
     }
 }

@@ -70,7 +70,7 @@ export default {
             axios.get('/api/albums/' + id).then((response) => {
                 this.records = response.data
             }).catch((error) => {
-                alert('unable to to fetch data')
+                alert('unable to fetch data')
             })
         },
         recordUpdate(response) {

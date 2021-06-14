@@ -2005,12 +2005,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['editrecord'],
   data: function data() {
     return {
       categories: [],
-      image: ''
+      image: '',
+      allErrors: []
     };
   },
   created: function created() {
@@ -2050,6 +2060,7 @@ __webpack_require__.r(__webpack_exports__);
         _this2.$emit('recordUpdated', response);
       })["catch"](function (error) {
         console.log(error);
+        _this2.allErrors = error.response.data.errors;
       });
     }
   }
@@ -2143,7 +2154,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('/api/albums/' + id).then(function (response) {
         _this2.records = response.data;
       })["catch"](function (error) {
-        alert('unable to to fetch data');
+        alert('unable to fetch data');
       });
     },
     recordUpdate: function recordUpdate(response) {
@@ -38224,12 +38235,7 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          name: "name",
-                          maxlength: "25",
-                          required: ""
-                        },
+                        attrs: { type: "text", name: "name", maxlength: "25" },
                         domProps: { value: _vm.editrecord.name },
                         on: {
                           input: function($event) {
@@ -38243,7 +38249,17 @@ var render = function() {
                             )
                           }
                         }
-                      })
+                      }),
+                      _vm._v(" "),
+                      _vm.allErrors.name
+                        ? _c("span", { class: ["danger"] }, [
+                            _vm._v(
+                              "\r\n                                " +
+                                _vm._s(_vm.allErrors.name[0]) +
+                                "\r\n                            "
+                            )
+                          ])
+                        : _vm._e()
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
@@ -38259,11 +38275,7 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: {
-                          maxlength: "200",
-                          name: "description",
-                          required: ""
-                        },
+                        attrs: { maxlength: "200", name: "description" },
                         domProps: { value: _vm.editrecord.description },
                         on: {
                           input: function($event) {
@@ -38277,7 +38289,17 @@ var render = function() {
                             )
                           }
                         }
-                      })
+                      }),
+                      _vm._v(" "),
+                      _vm.allErrors.description
+                        ? _c("span", { class: ["danger"] }, [
+                            _vm._v(
+                              "\r\n                                " +
+                                _vm._s(_vm.allErrors.description[0]) +
+                                "\r\n                            "
+                            )
+                          ])
+                        : _vm._e()
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
@@ -38316,20 +38338,32 @@ var render = function() {
                             }
                           }
                         },
-                        _vm._l(_vm.categories, function(category, index) {
-                          return _c(
-                            "option",
-                            { key: index, domProps: { value: category.id } },
-                            [
-                              _vm._v(
-                                "\r\n                                    " +
-                                  _vm._s(category.name) +
-                                  "\r\n                                "
-                              )
-                            ]
-                          )
-                        }),
-                        0
+                        [
+                          _vm._l(_vm.categories, function(category, index) {
+                            return _c(
+                              "option",
+                              { key: index, domProps: { value: category.id } },
+                              [
+                                _vm._v(
+                                  "\r\n                                    " +
+                                    _vm._s(category.name) +
+                                    "\r\n                                "
+                                )
+                              ]
+                            )
+                          }),
+                          _vm._v(" "),
+                          _vm.allErrors.category
+                            ? _c("span", { class: ["danger"] }, [
+                                _vm._v(
+                                  "\r\n                                    " +
+                                    _vm._s(_vm.allErrors.category[0]) +
+                                    "\r\n                                "
+                                )
+                              ])
+                            : _vm._e()
+                        ],
+                        2
                       )
                     ]),
                     _vm._v(" "),
