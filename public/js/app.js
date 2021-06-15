@@ -2274,11 +2274,40 @@ __webpack_require__.r(__webpack_exports__);
         _this.getImage();
       });
     },
-    getImage: function getImage() {
+    DeleteImage: function DeleteImage(id) {
       var _this2 = this;
 
+      Swal.fire({
+        title: 'Are you sure?',
+        icon: 'warning',
+        text: "You won't be able to revert this!",
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes,delete it'
+      }).then(function (result) {
+        if (result.value) {
+          axios["delete"]('/image/' + id).then(function (response) {
+            _this2.getImage();
+
+            Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: 'Your chnages has been saved',
+              showConfirmButton: false,
+              timer: 1500
+            });
+          })["catch"](function (error) {
+            console.log(error);
+          });
+        }
+      });
+    },
+    getImage: function getImage() {
+      var _this3 = this;
+
       axios.get('/getimages').then(function (response) {
-        _this2.images = response.data;
+        _this3.images = response.data;
       })["catch"](function (error) {
         alert('error');
       });

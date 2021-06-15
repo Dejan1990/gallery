@@ -45,4 +45,9 @@ class GalleryController extends Controller
     {
         return Image::where('album_id', session()->get('id'))->get();
     }
+
+    public function destroy(Image $image)
+    {
+        return $image->delete();
+    }
 }
