@@ -38704,7 +38704,19 @@ var render = function() {
               _vm._v(" "),
               _c("td", [_vm._v(_vm._s(album.category.name))]),
               _vm._v(" "),
-              _vm._m(1, true),
+              _c("td", [
+                _c(
+                  "a",
+                  { attrs: { href: "/albums/" + album.slug + "/" + album.id } },
+                  [
+                    _c("button", { staticClass: "btn btn-info" }, [
+                      _vm._v(
+                        "\r\n                            View\r\n                        "
+                      )
+                    ])
+                  ]
+                )
+              ]),
               _vm._v(" "),
               _c("td", [
                 _c("a", { attrs: { href: "/upload/images/" + album.id } }, [
@@ -38792,20 +38804,6 @@ var staticRenderFns = [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Edit")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Delete")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("a", { attrs: { href: "#" } }, [
-        _c("button", { staticClass: "btn btn-info" }, [
-          _vm._v(
-            "\r\n                            View\r\n                        "
-          )
-        ])
       ])
     ])
   }
