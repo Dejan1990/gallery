@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Album;
 use Illuminate\Http\Request;
 
@@ -16,6 +17,8 @@ class FrontendController extends Controller
     public function userAlbum($id)
     {
     	$albums = Album::where('user_id', $id)->get();
-        return view('user-album', compact('albums'));
+        //$userId = $id;
+        $follows = (new User)->amIfollowing($id);
+        return view('user-album', compact('albums', 'id', 'follows'));
     }
 }
