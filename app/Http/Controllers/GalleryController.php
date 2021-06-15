@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Album;
 use App\Models\Image;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class GalleryController extends Controller
 {
@@ -54,9 +55,14 @@ class GalleryController extends Controller
 
     public function viewAlbum($slug, $id)
     {
-        $albums = Album::with('albumimages')->where('slug', $slug)->where('id', $id)->get();
-        $userId = Album::where('id', $id)->first()->user_id;
-        $follows = (new User)->amIfollowing($userId); // vraca true or false
-        return view('album.show', compact('albums', 'follows', 'userId'));
+        $albums = Album::with('albumimages')->where('slug',$slug)->where('id',$id)->get();
+ 
+        if(Auth::check()){
+             $userId  = Album::where('id',$id)->first()->user_id;
+             $follows = (new User)->amIfollowing($userId);//Vraca true or false
+             return view('album.show',compact('albums', 'follows','userId'));
+         }
+
+         return view('album.show',compact('albums'));
      }
 }

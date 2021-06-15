@@ -9,8 +9,7 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js" defer></script>
@@ -84,5 +83,18 @@
             @yield('content')
         </main>
     </div>
+    <script>
+        window.AuthUser = '{!! auth()->user() !!}'
+
+        window.__auth = function () { // __ znaci da je junik, mozda neki paket koji koristimo definise auth funkciju unutar window objekta, ovako to izbegavamo
+            try {
+                return JSON.parse(AuthUser)
+            } catch (error) {
+                return null
+            }
+        }
+    </script>
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}" defer></script>
 </body>
 </html>

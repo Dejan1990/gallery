@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Album;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FrontendController extends Controller
 {
@@ -17,8 +18,13 @@ class FrontendController extends Controller
     public function userAlbum($id)
     {
     	$albums = Album::where('user_id', $id)->get();
-        //$userId = $id;
-        $follows = (new User)->amIfollowing($id);
-        return view('user-album', compact('albums', 'id', 'follows'));
+
+        if(Auth::check()){
+            //$userId = $id;
+            $follows = (new User)->amIfollowing($id);//Vraca true or false
+            return view('user-album', compact('albums', 'id', 'follows'));
+        }
+
+        return view('user-album', compact('albums'));
     }
 }

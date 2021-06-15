@@ -4,9 +4,10 @@
     <div class="container">
         <img src="{{ asset('banner') }}/banner.jpg" style="width: 100%;">
         <br><br>
-        @if (auth()->user()->id != $id)
+        @if (Auth::check() && auth()->user()->id != $id)
             <follow user-id="{{ $id }}" follows="{{ $follows }}"></follow>
         @endif
+        
         <div class="row">
             @foreach ($albums as $album)
                 <div class="col-lg-3">
