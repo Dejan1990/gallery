@@ -62,6 +62,9 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a href="{{ route('profile') }}" class="dropdown-item">
+                                        Profile
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -83,17 +86,6 @@
             @yield('content')
         </main>
     </div>
-    <script>
-        window.AuthUser = '{!! auth()->user() !!}'
-
-        window.__auth = function () { // __ znaci da je junik, mozda neki paket koji koristimo definise auth funkciju unutar window objekta, ovako to izbegavamo
-            try {
-                return JSON.parse(AuthUser)
-            } catch (error) {
-                return null
-            }
-        }
-    </script>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 </body>
