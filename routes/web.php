@@ -9,6 +9,7 @@ use App\Http\Controllers\FrontendController;
 
 
 Route::get('/', [FrontendController::class, 'index']);
+Route::get('/user/profile/{id}', [FrontendController::class, 'userAlbum'])->name('user.album');
 
 Auth::routes();
 

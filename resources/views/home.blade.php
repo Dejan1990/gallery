@@ -8,7 +8,6 @@
         <div class="col-lg-3">
             <div class="card mt-4" style="min-height: 230px;">
             <img src="{{ asset('album') }}/{{ $album->image }}" class="card-img-top img-thumbnail" style="min-height: 180px;">
-
             <div class="card-body">
                 <h5 class="card-title">
                     <center>{{ $album->name }}</center>
