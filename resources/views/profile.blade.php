@@ -37,6 +37,7 @@
                                 <avatar userid="{{ auth()->user()->id }}"></avatar>
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="bgpic">
+                                <bg userid="{{ auth()->user()->id }}"></bg>
                             </div>
                         </div>
                     </div>

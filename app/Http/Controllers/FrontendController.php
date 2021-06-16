@@ -18,13 +18,15 @@ class FrontendController extends Controller
     public function userAlbum($id)
     {
     	$albums = Album::where('user_id', $id)->get();
+        $user = User::where('id', $id)->first();
+        $userBgPic = $user->bgpic;
 
         if(Auth::check()){
             //$userId = $id;
             $follows = (new User)->amIfollowing($id);//Vraca true or false
-            return view('user-album', compact('albums', 'id', 'follows'));
+            return view('user-album', compact('albums', 'id', 'follows', 'userBgPic'));
         }
 
-        return view('user-album', compact('albums'));
+        return view('user-album', compact('albums', 'userBgPic'));
     }
 }
