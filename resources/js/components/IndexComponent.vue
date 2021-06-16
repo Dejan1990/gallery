@@ -18,7 +18,7 @@
             <tr v-for="(album, index) in albums" :key="index">
                 <th scope="row">{{ index + 1 }}</th>
                 <td class="w-25">
-                    <img :src="`/album/${album.image}`" class="img-fluid img-thumbnail" alt="...">
+                    <img :src="'/album/'+ album.image" class="img-fluid img-thumbnail" alt="Sheep">
                 </td>
                 <td>{{ album.name }}<a href=""></a></td>
                 <td>{{ album.description }}</td>
@@ -46,7 +46,7 @@
             </tr>
         </tbody>
     </table>
-    <pagination></pagination>
+    <pagination :meta="meta" v-on:pagination="getAlbums"></pagination>
     <edit :editrecord="records" @recordUpdated="recordUpdate"></edit>
 </div>
 </template>
@@ -57,21 +57,30 @@ export default {
         return {
             albums: [],
             records: [],
+            meta: {}
         }
     },
     created() {
-        axios.get('/getalbums').then((response) => {
-            this.albums = response.data.data
-        }).catch((error) => {
-            console.log(error);
-        })
+        this.getAlbums()
     },
     methods: {
+        getAlbums(page) {
+            axios.get('/getalbums', {
+                params: {
+                    page
+                }
+            }).then((response) => {
+                this.albums = response.data.data
+                this.meta = response.data.meta
+            }).catch((error) => {
+                console.log(error);
+            })
+        },
         edit(id) {
             axios.get('/api/albums/' + id).then((response) => {
                 this.records = response.data
             }).catch((error) => {
-                alert('unable to fetch data')
+                alert('unable to to fetch data')
             })
         },
         recordUpdate(response) {
@@ -101,6 +110,7 @@ export default {
                         console.log(error)
                     })
                 }
+
             })
         }
     },
