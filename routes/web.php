@@ -11,6 +11,7 @@ use App\Http\Controllers\FollowController;
 
 Route::get('/', [FrontendController::class, 'index']);
 Route::get('/user/profile/{id}', [FrontendController::class, 'userAlbum'])->name('user.album');
+Route::get('/category/{category:slug}', [FrontendController::class, 'albumCategory'])->name('album.category');
 
 Auth::routes();
 

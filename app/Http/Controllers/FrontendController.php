@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Album;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,5 +29,11 @@ class FrontendController extends Controller
         }
 
         return view('user-album', compact('albums', 'userBgPic'));
+    }
+
+    public function albumCategory(Category $category)
+    {
+        $albums = Album::where('category_id', $category->id)->get();
+        return view('album-category', compact('albums'));
     }
 }
