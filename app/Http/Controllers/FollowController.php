@@ -27,4 +27,22 @@ class FollowController extends Controller
 
         return view('profile', compact('followings'));
 	}
+
+	public function updateProfilePic(Request $request)
+	{
+		$this->validate($request, [
+			'image' => 'required|mimes:jpeg,jpg,png'
+		]);
+
+		$image = $request->image->store('public/avatar');
+		$authUser = auth()->user()->id;
+		$user = User::where('id', $authUser)->update(['profilePic' => $image]);
+		return back();
+	}
+
+	public function userProfilePic($id)
+	{
+		$user = User::find($id);
+		return $user->profilePic;
+	}
 }
