@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Album;
 use App\Models\Image;
 use Illuminate\Http\Request;
+use App\Http\Resources\AlbumResource;
 
 class AlbumController extends Controller
 {
     public function getAlbums()
     {
-        $albums = Album::with('category')->where('user_id', auth()->user()->id)->get();
-        return $albums;
+        return new AlbumResource(Album::with('category')->where('user_id', auth()->user()->id)->paginate(3));
     }
     /**
      * Display a listing of the resource.
